@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h> // for memcmp function
 #define SECTOR_SIZE 512
-#define BOOT_SIGNATURE "\x55\xAA"
+#define BOOT_SIGNATURE "\x55\xAA"  //0x55AA blocks must be at the end of the MBR
 #define ASM_JMP '\xEB'
 int main(int argc, char *argv[]) {
 
@@ -13,12 +13,12 @@ int main(int argc, char *argv[]) {
 	}
 
     FILE * fd;
-    printf("%s device file pointer is at %lx \n",argv[1],argv[2]);
 	fd = fopen(argv[1], "r");
 	if (fd == NULL) {
 		printf("Could not open %s for read \n", argv[1]);
 		return 1;
 	}
+    printf("%s device file pointer is at %lx \n",argv[1],&fd);
 
 	fread(&mbr, SECTOR_SIZE, 1, fd);
 
